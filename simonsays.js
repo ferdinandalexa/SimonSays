@@ -1,3 +1,18 @@
+const niveles = 15;
+let keys = generarTeclas()
+
+function generarTeclas()
+{
+    return new Array(niveles).fill(0).map(generarTeclaAleatoria); 
+}
+
+function generarTeclaAleatoria()
+{
+    const min = 65;
+    const max = 90;
+    return Math.round(Math.random() * (max - min) + min)
+}
+
 function getElementByKeyCode(keyCode)
 {
     return document.querySelector(`[data-key = "${keyCode}"]`);
@@ -15,9 +30,10 @@ function activate(keyCode, opts = {})
     {
         element.classList.add(`fail`);
     }
-    setTimeout(() => {
+    setTimeout(() =>
+    {
         deactivate(element)
-    },500);
+    }, 500);
 }
 
 function deactivate(element)
