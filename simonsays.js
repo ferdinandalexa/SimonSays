@@ -1,4 +1,4 @@
-const niveles = 15;
+const niveles = 1;
 let keys = generarTeclas()
 
 function generarTeclas()
@@ -13,21 +13,27 @@ function generarTeclaAleatoria()
     return Math.round(Math.random() * (max - min) + min)
 }
 
-function siguienteNivel(nivelActual)
+async function siguienteNivel(nivelActual)
 {
     if (nivelActual == niveles)
     {
-        return alert(`Ganaste. Fin del juego`);
+        return swal(`Ganaste. Fin del juego`, {
+            buttons: false,
+            icon: `success`
+        });
     }
 
-    alert(`Nivel ${nivelActual + 1}`);
+    await swal(`Nivel ${nivelActual + 1}`, {
+        buttons: false,
+        timer: 1500,
+    });
 
     for (let i = 0; i <= nivelActual; i++)
     {
         setTimeout(() =>
         {
             activate(keys[i])
-        }, 1500 + 1000 * i);
+        }, 1000 + 1000 * i);
     }
 
     let i = 0;
@@ -54,7 +60,10 @@ function siguienteNivel(nivelActual)
         {
             activate(eve.keyCode, { fail: true })
             window.removeEventListener(`keydown`, onclick);
-            alert(`Perdiste :(`)
+            setTimeout(() => swal(`Perdiste`, {
+                icon: `error`
+            }), 1000);
+            // alert(`Perdiste :(`)}
         }
     }
 }
