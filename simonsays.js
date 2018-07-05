@@ -1,4 +1,4 @@
-const niveles = 1;
+const niveles = 15;
 let keys = generarTeclas(niveles)
 
 function generarTeclas(lvls)
@@ -17,9 +17,30 @@ async function siguienteNivel(nivelActual)
 {
     if (nivelActual == niveles)
     {
-        return swal(`Ganaste. Fin del juego`, {
-            buttons: false,
+        return swal({
+            title: `Ganaste!! :D `,
+            text: `¿Deseas jugar otra partida?`,
+            buttons:
+            {
+                cancel: `Salir`,
+                Volver:
+                {
+                    text: `Jugar otra vez`,
+                    value: true
+                }
+            },
             icon: `success`
+        }).then(seleccion =>
+        {
+            if (seleccion)
+            {
+                keys = generarTeclas(niveles)
+                siguienteNivel(0);
+            }
+            else
+            {
+                swal(`Gracias por jugar`);
+            }
         });
     }
 
@@ -61,12 +82,34 @@ async function siguienteNivel(nivelActual)
             activate(eve.keyCode, { fail: true })
             window.removeEventListener(`keydown`, onclick);
             setTimeout(() => swal(`Perdiste`, {
+                title: `Perdiste :(`,
+                text: `¿Deseas vover a intentarlo?`,
+                buttons:
+                {
+                    cancel: `Salir`,
+                    volver:
+                    {
+                        text: `Volver a intentar`,
+                        value: true
+                    }
+                },
                 icon: `error`
-            }), 1000);
-            // alert(`Perdiste :(`)}
+            }).then(seleccion =>
+                {
+                    if (seleccion)
+                    {
+                        keys = generarTeclas(niveles)
+                        siguienteNivel(0);
+                    }
+                    else
+                    {
+                        swal(`Gracias por jugar`);
+                    }
+                }), 1000);
         }
     }
 }
+
 
 siguienteNivel(0);
 
