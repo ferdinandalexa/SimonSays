@@ -1,9 +1,9 @@
 const niveles = 1;
-let keys = generarTeclas()
+let keys = generarTeclas(niveles)
 
-function generarTeclas()
+function generarTeclas(lvls)
 {
-    return new Array(niveles).fill(0).map(generarTeclaAleatoria);
+    return new Array(lvls).fill(0).map(generarTeclaAleatoria);
 }
 
 function generarTeclaAleatoria()
