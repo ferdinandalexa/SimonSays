@@ -1,5 +1,46 @@
-const niveles = 15;
-let keys = generarTeclas(niveles)
+let keys;
+
+class Dificultad
+{
+    constructor(niveles, tiempo)
+    {
+        this.niveles = niveles;
+        this.tiempo = tiempo;
+    }
+}
+
+let dif;
+
+swal({
+    title: `Dificultad`,
+    text: `¿En qué dificultad quieres jugar?`,
+    buttons: {
+        easy: {
+            text: `Facil`,
+            value: 1
+        },
+        medium: {
+            text: `Medio`,
+            value: 2
+        },
+        hard: {
+            text: `Dificil`,
+            value: 3
+        }
+    }
+}).then(valor =>
+{
+    if (valor === 1)
+        dif = new Dificultad(5, 1000);
+    else if (valor === 2)
+        dif = new Dificultad(10, 500);
+    else
+        dif = new Dificultad(15, 250);
+
+    keys = generarTeclas(dif.niveles);
+    siguienteNivel(0);
+})
+
 
 function generarTeclas(lvls)
 {
@@ -15,7 +56,7 @@ function generarTeclaAleatoria()
 
 async function siguienteNivel(nivelActual)
 {
-    if (nivelActual == niveles)
+    if (nivelActual == dif.niveles)
     {
         return swal({
             title: `Ganaste!! :D `,
@@ -34,7 +75,7 @@ async function siguienteNivel(nivelActual)
         {
             if (seleccion)
             {
-                keys = generarTeclas(niveles)
+                keys = generarTeclas(dif.niveles)
                 siguienteNivel(0);
             }
             else
@@ -54,7 +95,7 @@ async function siguienteNivel(nivelActual)
         setTimeout(() =>
         {
             activate(keys[i])
-        }, 1000 + 1000 * i);
+        }, 1000 + dif.tiempo * i);
     }
 
     let i = 0;
@@ -95,23 +136,23 @@ async function siguienteNivel(nivelActual)
                 },
                 icon: `error`
             }).then(seleccion =>
+            {
+                if (seleccion)
                 {
-                    if (seleccion)
-                    {
-                        keys = generarTeclas(niveles)
-                        siguienteNivel(0);
-                    }
-                    else
-                    {
-                        swal(`Gracias por jugar`);
-                    }
-                }), 1000);
+                    keys = generarTeclas(dif.niveles)
+                    siguienteNivel(0);
+                }
+                else
+                {
+                    swal(`Gracias por jugar`);
+                }
+            }), 1000);
         }
     }
 }
 
 
-siguienteNivel(0);
+// siguienteNivel(0);
 
 function getElementByKeyCode(keyCode)
 {
